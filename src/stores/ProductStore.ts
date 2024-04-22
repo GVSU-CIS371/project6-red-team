@@ -11,8 +11,21 @@ export const useProductStore = defineStore("ProductStore", {
     },
   },
   actions: {
-    init() {
-      this.products = initProducts;
+    async init() {
+      const db = getFirestore();
+      const productsSnapshot = await getDocs(collection(db, 'products'));
+      this.products = productsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        data: doc.data() as ProductDoc['data'] 
+      }));
+    },
+    async addProduct(product: ProductDoc) {
+      const docRef = await addDoc(collection(db, 'products'), product.data);
+      this.products.push({ id: docRef.id, data: product.data });
+    },
+    async deleteProduct(productId: string) {
+      await deleteDoc(doc(db, 'products', productId));
+      this.products = this.products.filter(product => product.id !== productId);
     },
     filterByCategory(category: string) {
       this.products = this.products.filter((x) => x.data.category === category);
