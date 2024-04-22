@@ -1,6 +1,6 @@
 
 <template>
-  <v-card class="mx-auto px-2" max-width="1000px" height="600px" @mouseover="isHovered = true" @mouseleave="isHovered = false" :elevation="isHovered ? 12 : 2">
+  <v-card class="mx-auto px-2" max-width="1200px" height="620px" @mouseover="isHovered = true" @mouseleave="isHovered = false" :elevation="isHovered ? 12 : 2">
     <v-card-title class="mt-5 ml-6">
       <b>{{ product.data.name }}</b>
     </v-card-title>
@@ -22,7 +22,20 @@
       </v-col>
     </v-row>
     <v-img height="350px" :src="product.data.image" contain class="mt-5"></v-img>
-    <v-card-text class="ml-6 mr-6 mt-5">{{ product.data.description }}</v-card-text> 
+    <v-card-text class="ml-6 mr-6 mt-5">{{ product.data.description }}</v-card-text>
+    <v-row class="justify-space-around">
+      <v-col class="ma-3 v-col-auto">
+        <v-btn class="bg-blue-lighten-5 text-blue-darken-5">
+        Modify
+        </v-btn>
+      </v-col>
+      <v-col class="ma-3 v-col-auto">
+        <v-btn class="bg-red-lighten-4 text-red-darken-5">
+          Delete
+        </v-btn>
+      </v-col>
+    </v-row>
+    
   </v-card>
 </template>
 

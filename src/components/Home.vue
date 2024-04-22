@@ -2,7 +2,7 @@
 <template>
   <v-container>
   <v-row> 
-    <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="3">
+    <v-col v-for="product in products" :key="product.id" cols="12" sm="66" md="6">
         <store-item :product="product"></store-item>
     </v-col>
   </v-row>
@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts" setup>
-// your answer
 
 import StoreItem from './StoreItem.vue';
 import { useProductStore } from '../stores/ProductStore';
