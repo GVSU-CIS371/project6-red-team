@@ -1,8 +1,7 @@
 
 <template>
   <v-card 
-  class="mx-auto px-2" 
-  max-width="1200px" 
+  class="mx-auto px-2 my-1" 
   height="620px" 
   @mouseover="isHovered = true" 
   @mouseleave="isHovered = false" 
@@ -31,8 +30,8 @@
     </v-row>
     <v-img height="350px" :src="product.data.image" contain class="mt-5"></v-img>
     <v-card-text class="ml-6 mr-6 mt-5">{{ product.data.description }}</v-card-text>
-    <v-row class="justify-space-around">
-      <v-col class="ma-3 v-col-auto">
+    <v-row class="justify-start">
+      <v-col class="ma-3 v-col-auto" style="padding-left: 20px;">
         <v-btn class="bg-blue-lighten-5 text-blue-darken-5">
         Modify
         </v-btn>
