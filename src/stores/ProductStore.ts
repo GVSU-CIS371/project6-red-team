@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ProductDoc } from "../types/product";
 import { initProducts } from "../data-init";
+import {getFirestore, collection, getDocs, addDoc, deleteDoc, doc} from 'firebase/firestore'
 
 export const useProductStore = defineStore("ProductStore", {
   state: () => ({ products: <ProductDoc[]>[] }),
