@@ -1,6 +1,14 @@
 
 <template>
-  <v-card class="mx-auto px-2" max-width="1200px" height="620px" @mouseover="isHovered = true" @mouseleave="isHovered = false" :elevation="isHovered ? 12 : 2">
+  <v-card 
+  class="mx-auto px-2" 
+  max-width="1200px" 
+  height="620px" 
+  @mouseover="isHovered = true" 
+  @mouseleave="isHovered = false" 
+  :elevation="isHovered ? 12 : 2"
+  
+  >
     <v-card-title class="mt-5 ml-6">
       <b>{{ product.data.name }}</b>
     </v-card-title>
@@ -30,23 +38,31 @@
         </v-btn>
       </v-col>
       <v-col class="ma-3 v-col-auto">
-        <v-btn class="bg-red-lighten-4 text-red-darken-5">
+        <v-btn class="bg-red-lighten-4 text-red-darken-5" @click="deleteProduct(product.id)">
           Delete
         </v-btn>
       </v-col>
     </v-row>
-    
   </v-card>
+  
 </template>
 
 <script lang="ts" setup>
+
 import { ProductDoc } from '../types/product.ts';
 import { defineProps, ref } from 'vue';
+import { useProductStore } from '../stores/ProductStore';
+
 defineProps<{
   product: ProductDoc;
 }>();
 
+const productStore = useProductStore();
+async function deleteProduct(item:string){
+  await productStore.deleteProduct(item);
+}
 const isHovered = ref(false);
+//var modify = ref(false)
 </script>
 
 

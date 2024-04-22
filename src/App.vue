@@ -97,17 +97,18 @@
                 </v-text-field>
               </v-col>
             </v-row>
-            <!-- <v-row>
+            <v-row>
               <v-col>
-                <v-text-field
+                <v-combobox
+                  :items="['Groceries', 'Electronics', 'Clothing']"
                   clearable label="category"
                   class="mx-3"
                   variant="outlined"
                   v-model="newProduct.category"
                 >
-                </v-text-field>
+                </v-combobox>
               </v-col>
-            </v-row> -->
+            </v-row>
 
             <v-row justify="start" align="start">
                 <v-btn
@@ -139,12 +140,9 @@ const links = ref([
   { text: "Best Seller", to: "/bestseller", icon: "mdi-cash-register" },
 ]);
 var dialog = ref(false);
-var sliderRating = ref(1)
-var stock = ref(0)
-var price = ref(0)
-
-
-
+//var sliderRating = ref(1)
+//var stock = ref(0)
+//var price = ref(0)
 
 const newProduct = ref({
   name: '',
@@ -169,7 +167,11 @@ const addProduct = async() => {
     image: newProduct.value.image,
     category: newProduct.value.category
   };
-  await productStore.addProduct(product);
+  const finalProduct = {
+    id: product.name,
+    data: product
+  }
+  await productStore.addProduct(finalProduct);
   newProduct.value = {
     name: "",
     description: "",
