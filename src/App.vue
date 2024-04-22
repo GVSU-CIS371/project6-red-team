@@ -65,9 +65,9 @@
             </v-row>
           
             <v-row class="justify-space-evenly">
-              <p class="mx-6">Rating {{sliderRating}}</p>
+              <p class="mx-6">Rating {{newProduct.rating}}</p>
               <v-slider
-                min="1"
+                min="0"
                 max="5"
                 step="1"
                 class="mx-8"
@@ -78,16 +78,17 @@
             <v-row>
               <v-col>
                 <v-text-field
-                  clearable label="Price"
+                  clearable label="Price $"
                   class="mx-3"
                   variant="outlined"
                   v-model="newProduct.price"
                 >
                 </v-text-field>
               </v-col>
+          
 
               <v-col>
-                <v-text-field
+                <v-text-field 
                   clearable label="Stock"
                   class="mx-3"
                   variant="outlined"
@@ -96,7 +97,7 @@
                 </v-text-field>
               </v-col>
             </v-row>
-            <v-row>
+            <!-- <v-row>
               <v-col>
                 <v-text-field
                   clearable label="category"
@@ -106,7 +107,7 @@
                 >
                 </v-text-field>
               </v-col>
-            </v-row>
+            </v-row> -->
 
             <v-row justify="start" align="start">
                 <v-btn
@@ -141,6 +142,9 @@ var dialog = ref(false);
 var sliderRating = ref(1)
 var stock = ref(0)
 var price = ref(0)
+
+
+
 
 const newProduct = ref({
   name: '',
