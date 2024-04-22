@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import { ProductDoc } from "../types/product";
 import { initProducts } from "../data-init";
-import {getFirestore, collection, getDocs, addDoc, deleteDoc, doc} from 'firebase/firestore'
+import {collection, getDocs, addDoc, deleteDoc, doc} from "firebase/firestore"
+import {db} from "../main"
 
 export const useProductStore = defineStore("ProductStore", {
   state: () => ({ products: <ProductDoc[]>[] }),
@@ -12,7 +13,6 @@ export const useProductStore = defineStore("ProductStore", {
   },
   actions: {
     async init() {
-      const db = getFirestore();
       const productsSnapshot = await getDocs(collection(db, 'products'));
       this.products = productsSnapshot.docs.map(doc => ({
         id: doc.id,

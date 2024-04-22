@@ -36,6 +36,7 @@
           <v-col>
             <v-row>
               <v-text-field
+                  v-model="newProduct.name"
                   label="Name"
                   class="mx-6"
                   variant="outlined"
@@ -45,6 +46,7 @@
 
             <v-row>
               <v-text-field
+                  v-model="newProduct.image"
                   label="Image URL"
                   class="mx-6"
                   variant="outlined"
@@ -54,6 +56,7 @@
 
             <v-row>
               <v-text-field
+                  v-model="newProduct.description"
                   label="Description"
                   class="mx-6"
                   variant="outlined"
@@ -68,7 +71,7 @@
                 max="5"
                 step="1"
                 class="mx-8"
-                v-model="sliderRating"
+                v-model="newProduct.rating"
               ></v-slider>
             </v-row>
 
@@ -78,7 +81,7 @@
                   clearable label="Price"
                   class="mx-3"
                   variant="outlined"
-                  v-model="price"
+                  v-model="newProduct.price"
                 >
                 </v-text-field>
               </v-col>
@@ -88,7 +91,18 @@
                   clearable label="Stock"
                   class="mx-3"
                   variant="outlined"
-                  v-model="stock"
+                  v-model="newProduct.stock"
+                >
+                </v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  clearable label="category"
+                  class="mx-3"
+                  variant="outlined"
+                  v-model="newProduct.category"
                 >
                 </v-text-field>
               </v-col>
@@ -98,7 +112,7 @@
                 <v-btn
                 class="bg-blue-lighten-5 rounded-3 text-blue-darken-1 mx-6"
                 text="Add"
-                @click="dialog = false"
+                @click="addProduct"
               ></v-btn>   
             </v-row>
           </v-col>
@@ -114,6 +128,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useProductStore } from './stores/ProductStore';
 
 const links = ref([
   { text: "Home", to: "/", icon: "mdi-home" },
@@ -126,4 +141,41 @@ var dialog = ref(false);
 var sliderRating = ref(1)
 var stock = ref(0)
 var price = ref(0)
+
+const newProduct = ref({
+  name: '',
+  description: '',
+  price: 0,
+  rating: 0,
+  stock: 0,
+  image: '',
+  category: ''
+});
+
+const productStore = useProductStore();
+
+const addProduct = async() => {
+  console.log("Adding product");
+  const product = {
+    name: newProduct.value.name,
+    description: newProduct.value.description,
+    price: newProduct.value.price,
+    rating: newProduct.value.rating,
+    stock: newProduct.value.stock,
+    image: newProduct.value.image,
+    category: newProduct.value.category
+  };
+  await productStore.addProduct(product);
+  newProduct.value = {
+    name: "",
+    description: "",
+    price: 0,
+    rating: 0,
+    stock: 0,
+    image: '',
+    category: ''
+  };
+  dialog.value = false;
+};
+
 </script>

@@ -36,8 +36,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db =  getFirestore(app);
 const analytics = getAnalytics(app);
+export const db = getFirestore();
 
 const pinia = createPinia();
 createApp(App).use(vuetify).use(pinia).use(router).mount("#app");
