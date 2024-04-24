@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ProductDoc } from "../types/product";
 import { initProducts } from "../data-init";
-import {collection, getDocs, addDoc, deleteDoc, doc} from "firebase/firestore"
+import {collection, getDocs, addDoc, deleteDoc, doc, setDoc} from "firebase/firestore"
 import {db} from "../main"
 
 export const useProductStore = defineStore("ProductStore", {
@@ -26,6 +26,19 @@ export const useProductStore = defineStore("ProductStore", {
     async deleteProduct(productId: string) {
       await deleteDoc(doc(db, 'products', productId));
       this.products = this.products.filter(product => product.id !== productId);
+    },
+    async changeProduct(product: ProductDoc) {
+      const productRef = doc(db, 'products', product.id);
+      try {
+        await setDoc(productRef, product.data);
+        const index = this.products.findIndex(p => p.id === product.id);
+        if (index !== -1) {
+          this.products[index].data = product.data;
+        }
+      } catch (error) {
+        console.error('Error updating product:', error);
+        throw error; 
+      }
     },
     filterByCategory(category: string) {
       this.products = this.products.filter((x) => x.data.category === category);
