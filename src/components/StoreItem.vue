@@ -112,7 +112,7 @@
                   clearable label="Stock"
                   class="mx-3"
                   variant="outlined"
-                  
+                  v-model="product.data.stock"                 
                 >
                 </v-text-field>
               </v-col>
@@ -147,6 +147,7 @@
         </template>
   </v-card>
   <confirm-dialog v-model="confirmDialogVisible" @confirm="confirmModify(product), confirmDialogVisible=false, modify=false" @cancel="cancelModification" />
+
 </template>
 
 <script lang="ts" setup>
@@ -161,6 +162,7 @@ defineProps<{
 }>();
 
 const productStore = useProductStore();
+
 async function deleteProduct(item:string){
   await productStore.deleteProduct(item);
 }
