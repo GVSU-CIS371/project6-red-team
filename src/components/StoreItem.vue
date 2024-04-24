@@ -37,9 +37,10 @@
         </v-btn>
       </v-col>
       <v-col class="ma-3 v-col-auto">
-        <v-btn class="bg-red-lighten-4 text-red-darken-5" @click="deleteProduct(product.id)">
-          Delete
-        </v-btn>
+        <v-btn class="bg-red-lighten-4 text-red-darken-5" @click="confirmDelete">
+         Delete
+         </v-btn>
+
       </v-col>
     </v-row>
   </v-card>
@@ -151,9 +152,8 @@
 </template>
 
 <script lang="ts" setup>
-
 import { ProductDoc } from '../types/product.ts';
-import { defineProps, ref} from 'vue';
+import { defineProps, ref } from 'vue';
 import { useProductStore } from '../stores/ProductStore';
 import ConfirmDialog from './ConfirmDialog.vue';
 
@@ -163,26 +163,37 @@ defineProps<{
 
 const productStore = useProductStore();
 
-async function deleteProduct(item:string){
-  await productStore.deleteProduct(item);
-}
-async function changeProduct(item:ProductDoc){
-  await productStore.changeProduct(item);
+
+async function changeProduct(product: ProductDoc) {
+  await productStore.changeProduct(product);
 }
 
-var confirmDialogVisible = ref(false)
-function confirmModify(product:ProductDoc) {
-      confirmDialogVisible.value = true;
-      changeProduct(product)
+var confirmDialogVisible = ref(false);
+
+function confirmModify(product: ProductDoc) {
+  confirmDialogVisible.value = true;
+  changeProduct(product);
 }
+async function deleteProduct(product:any) {
+  await productStore.deleteProduct(product);
+}
+
+function confirmDelete(product:any) {
+  if (window.confirm('Are you sure you want to delete this product?')) {
+    deleteProduct(product);
+  }
+}
+
+
 function cancelModification() {
   confirmDialogVisible.value = false;
 }
 
-const isHovered = ref(false);
-const modify = ref(false)
 
+const isHovered = ref(false);
+const modify = ref(false);
 </script>
+
 
 
 

@@ -36,10 +36,19 @@ export const useProductStore = defineStore("ProductStore", {
       const docRef = await addDoc(collection(db, 'products'), product.data);
       this.products.push({ id: docRef.id, data: product.data });
     },
-    async deleteProduct(productId: string) {
-      await deleteDoc(doc(db, 'products', productId));
-      this.products = this.products.filter(product => product.id !== productId);
+    async deleteProduct(theProduct: ProductDoc) {
+      try {
+        await deleteDoc(doc(db, "products", theProduct.id));
+        const index = this.products.findIndex(p => p.id === theProduct.id);
+        if (index !== -1) {
+          this.products.splice(index, 1);
+        }
+      } catch (error) {
+        console.error("Error when deleting product:", error);
+        throw error;
+      }
     },
+  
     async changeProduct(product: ProductDoc) {
       const productRef = doc(db, 'products', product.id);
       try {
