@@ -11,14 +11,27 @@ export const useProductStore = defineStore("ProductStore", {
       return state.products;
     },
   },
+
   actions: {
     async init() {
-      const productsSnapshot = await getDocs(collection(db, 'products'));
-      this.products = productsSnapshot.docs.map(doc => ({
-        id: doc.id,
-        data: doc.data() as ProductDoc['data'] 
-      }));
+      const prodColRef = collection(db, 'products');
+      const querySnapshot = await getDocs(prodColRef);
+  
+      if (querySnapshot.empty) {
+        this.products = initProducts;
+        await Promise.all(initProducts.map(async (prod) => {
+          const prodDoc = doc(prodColRef, prod.id);
+          await setDoc(prodDoc, prod.data);
+        }));
+      } else {
+        const firestoreProducts = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data() as ProductDoc['data'] 
+        }));
+        this.products = [...initProducts, ...firestoreProducts];
+      }
     },
+ 
     async addProduct(product: ProductDoc) {
       const docRef = await addDoc(collection(db, 'products'), product.data);
       this.products.push({ id: docRef.id, data: product.data });
