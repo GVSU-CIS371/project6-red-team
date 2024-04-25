@@ -28,8 +28,8 @@
         <v-icon color="blue">mdi-package-variant-closed</v-icon> {{ product.data.stock }}
       </v-col>
     </v-row>
-    <v-img height="350px" :src="product.data.image" contain class="mt-5"></v-img>
-    <v-card-text class="ml-6 mr-6 mt-5">{{ product.data.description }}</v-card-text>
+    <v-img height="300px" :src="product.data.image" contain class="mt-5"></v-img>
+    <v-card-text height="100px" max-height="100px" class="ml-6 mr-6 mt-5">{{ product.data.description }}</v-card-text>
     <v-row class="justify-start">
       <v-col class="ma-3 v-col-auto" style="padding-left: 20px;">
         <v-btn class="bg-blue-lighten-5 text-blue-darken-5" @click="modify = true">
@@ -37,7 +37,7 @@
         </v-btn>
       </v-col>
       <v-col class="ma-3 v-col-auto">
-        <v-btn class="bg-red-lighten-4 text-red-darken-5" @click="confirmDelete">
+        <v-btn class="bg-red-lighten-4 text-red-darken-5" @click="confirmDelete(product)">
          Delete
          </v-btn>
 
@@ -174,11 +174,11 @@ function confirmModify(product: ProductDoc) {
   confirmDialogVisible.value = true;
   changeProduct(product);
 }
-async function deleteProduct(product:any) {
+async function deleteProduct(product:ProductDoc) {
   await productStore.deleteProduct(product);
 }
 
-function confirmDelete(product:any) {
+function confirmDelete(product:ProductDoc) {
   if (window.confirm('Are you sure you want to delete this product?')) {
     deleteProduct(product);
   }
